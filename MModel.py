@@ -64,8 +64,8 @@ class InitModel:
         y_pred_df["Predictions"] = self.model.predict(start=y_pred_df.index[0], end=y_pred_df.index[-1])
         y_pred_df.index = self.test_data.index
         self.predicted = y_pred_df["Predictions"]
-        arma_rmse = np.sqrt(mean_squared_error(self.test_data[self.l_ratio].values, y_pred_df["Predictions"]))
-        print(arma_rmse)
+        arima_rmse = np.sqrt(mean_squared_error(self.test_data[self.l_ratio].values, y_pred_df["Predictions"]))
+        print("RMS: ", arima_rmse)
 
     def create_buy_sell(self):
         self.create_prediction()
