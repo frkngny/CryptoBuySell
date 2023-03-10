@@ -12,9 +12,12 @@ class CoinGlassAPI:
         self.base_url = "https://open-api.coinglass.com/public/v2/"
         self.io_params = ioparams
         self.disabled = disabled
-        self.API_KEY = "f3b118c38f184e539162436603e2d131"
+        self.API_KEY = ["f3b118c38f184e539162436603e2d131",
+                        "aa960181658e4bcfa235f28af4f1a7c5",
+                        "ea2cdae8d1014f30a5e8511fc6657c48"]
         self.final_item = dict()
         self.input_csv = input_csv
+        self.api_index = -1
 
     def get_data(self, segment: str, params: dict):
         try:
@@ -32,9 +35,11 @@ class CoinGlassAPI:
         else:
             url = f"{self.base_url}/{segment}?symbol={symbol}"
 
-        return \
-            json.loads(requests.get(url, headers={"accept": "application/json", "coinglassSecret": self.API_KEY}).text)[
-                "data"]
+        self.api_index += 1
+        if self.api_index == 3:
+            self.api_index = 0
+
+        return json.loads(requests.get(url, headers={"accept": "application/json", "coinglassSecret": self.API_KEY[self.api_index]}).text)["data"]
 
     def create_and_write(self, returned_data: list, params: list, segment: str):
         try:
